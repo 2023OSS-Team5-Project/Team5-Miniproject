@@ -1,6 +1,6 @@
 Project MCK
 ============
-
+<img src="/path/to/cafe.png" width="450px" height="300px" alt="cafe"></img><br/>
 
 ### What is MCK?
 - 한동대학교 맘스카페용 키오스크 프로그램을 구현하는 프로젝트로, 매니저용 모드와 클라이언트용 모드가 존재하여 선택 후 사용이 가능하다.
