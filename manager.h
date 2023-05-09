@@ -4,6 +4,7 @@
 
 typedef struct{
     char name[20];
+    char size;
     int price;
 } Menu;
 
@@ -14,7 +15,7 @@ void managerReadMenu(Menu *m[], int index);
 
 void managerMode()
 {
-    printf("Manager ¸ðµå ÀÔ´Ï´Ù.\n");
+    printf("Manager Mode.\n");
     Menu *mp[20];
     int result = 0, menu;
     int index=0;
@@ -24,7 +25,7 @@ void managerMode()
         if(menu==1){
             if(count>0){
                 managerReadMenu(mp, index); 
-            }else printf("µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.");
+            }else printf("There are no data.");
             }
         else if(menu==2){
             mp[index] = (Menu *)malloc(sizeof(Menu));
@@ -38,30 +39,32 @@ void managerMode()
         else if(menu==0){break;}
 
     }
-    printf("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù");
+    printf("Thank you!");
 };
 
 
 int managerSelectMenu(){
     int menu;
     printf("\n*** Mom's Cafe ***\n");
-    printf("1. Á¶È¸\n");
-    printf("2. Ãß°¡\n");
-    printf("3. ¼öÁ¤\n");
-    printf("4. »èÁ¦\n");
-    printf("5. ÆÄÀÏ ÀúÀå\n");
-    printf("6. ¸ÅÃâÈ®ÀÎ\n");
-    printf("0. Á¾·á\n\n");
+    printf("1. Read\n");
+    printf("2. Add\n");
+    printf("3. Update\n");
+    printf("4. Delete\n");
+    printf("5. Save\n");
+    printf("6. Confirm\n");
+    printf("0. Exit\n\n");
     scanf("%d", &menu);
     return menu;
 }
 void managerSaveData(){}
 int managerCreateMenu(Menu *m){
-    printf("¸Þ´º¸íÀº? ");
+    printf("name? ");
     getchar();
     fgets(m->name,20,stdin);    
     m->name[strlen(m->name)-1] = '\0';    
-    printf("°¡°ÝÀº? ");
+    printf("size? ");
+    scanf("%c", &m->size);
+    printf("price? ");
     scanf("%d", &m->price);
     return 1;
 }
@@ -71,7 +74,7 @@ void managerReadMenu(Menu *m[], int index){
     printf("========================================\n");
     for(int i=0; i<index; i++){
         if(m[i]==NULL) continue;
-        printf("%d     %s   %d¿ø\n",i+1,m[i]->name, m[i]->price);
+        printf("%d     %s   %dwon\n",i+1,m[i]->name, m[i]->price);
         // printf("");
 
     }
