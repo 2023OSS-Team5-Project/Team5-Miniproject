@@ -12,8 +12,9 @@ int managerCreateMenu(Menu *m);
 void managerReadMenu(Menu *m[], int index);
 
 
-void managerMode(){
-    printf("Manager ¸ðµå ÀÔ´Ï´Ù.\n");
+void managerMode()
+{
+    printf("Manager Â¸Ã°ÂµÃ¥ Ã€Ã”Â´ÃÂ´Ã™.\n");
     Menu *mp[20];
     int result = 0, menu;
     int index=0;
@@ -23,7 +24,7 @@ void managerMode(){
         if(menu==1){
             if(count>0){
                 managerReadMenu(mp, index); 
-            }else printf("µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.");
+            }else printf("ÂµÂ¥Ã€ÃŒÃ…ÃÂ°Â¡ Â¾Ã¸Â½Ã€Â´ÃÂ´Ã™.");
             }
         else if(menu==2){
             mp[index] = (Menu *)malloc(sizeof(Menu));
@@ -37,29 +38,30 @@ void managerMode(){
         else if(menu==0){break;}
 
     }
-    printf("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù");
+    printf("Ã‡ÃÂ·ÃŽÂ±Ã—Â·Â¥Ã€Â» ÃÂ¾Â·Ã¡Ã‡Ã•Â´ÃÂ´Ã™");
 };
+
 
 int managerSelectMenu(){
     int menu;
     printf("\n*** Mom's Cafe ***\n");
-    printf("1. Á¶È¸\n");
-    printf("2. Ãß°¡\n");
-    printf("3. ¼öÁ¤\n");
-    printf("4. »èÁ¦\n");
-    printf("5. ÆÄÀÏ ÀúÀå\n");
-    printf("6. ¸ÅÃâÈ®ÀÎ\n");
-    printf("0. Á¾·á\n\n");
+    printf("1. ÃÂ¶ÃˆÂ¸\n");
+    printf("2. ÃƒÃŸÂ°Â¡\n");
+    printf("3. Â¼Ã¶ÃÂ¤\n");
+    printf("4. Â»Ã¨ÃÂ¦\n");
+    printf("5. Ã†Ã„Ã€Ã Ã€ÃºÃ€Ã¥\n");
+    printf("6. Â¸Ã…ÃƒÃ¢ÃˆÂ®Ã€ÃŽ\n");
+    printf("0. ÃÂ¾Â·Ã¡\n\n");
     scanf("%d", &menu);
     return menu;
 }
 void managerSaveData(){}
 int managerCreateMenu(Menu *m){
-    printf("¸Þ´º¸íÀº? ");
+    printf("Â¸ÃžÂ´ÂºÂ¸Ã­Ã€Âº? ");
     getchar();
     fgets(m->name,20,stdin);    
     m->name[strlen(m->name)-1] = '\0';    
-    printf("°¡°ÝÀº? ");
+    printf("Â°Â¡Â°ÃÃ€Âº? ");
     scanf("%d", &m->price);
     return 1;
 }
@@ -69,9 +71,10 @@ void managerReadMenu(Menu *m[], int index){
     printf("========================================\n");
     for(int i=0; i<index; i++){
         if(m[i]==NULL) continue;
-        printf("%d     %s   %d¿ø\n",i+1,m[i]->name, m[i]->price);
+        printf("%d     %s   %dÂ¿Ã¸\n",i+1,m[i]->name, m[i]->price);
         // printf("");
 
     }
 }
 void managerConfirmSale(){}
+
