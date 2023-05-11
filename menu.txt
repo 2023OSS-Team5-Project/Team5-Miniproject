@@ -1,6 +1,6 @@
-ice americano
-M
-3000
-ice americano
+Ice
 L
-4000
+1000
+Water
+M
+500

@@ -14,6 +14,7 @@ void managerReadMenu(Menu *m[], int index);
 int managerUpdateMenu(Menu *m);
 void managerDeleteMenu(Menu *m, int *count);
 int selectN();
+void managerSaveData(Menu *m[], int index);
 
 void managerMode()
 {
@@ -55,7 +56,7 @@ void managerMode()
     }
             }else printf("There are no data.");
         }
-        else if(menu==5){}
+        else if(menu==5){managerSaveData(mp,index);}
         else if(menu==6){}
         else if(menu==0){break;}
 
@@ -84,7 +85,16 @@ int managerSelectMenu(){
     return menu;
 }
 
-void managerSaveData(){}
+void managerSaveData(Menu *m[], int index){
+    FILE *fp;
+    fp = fopen("menu.txt", "wt");
+    for(int i=0; i<index; i++){
+        if(m[i] == NULL) continue;
+        fprintf(fp, "%s\n%c\n%d\n",m[i]->name, m[i]->size, m[i]->price);
+    }
+    fclose(fp);
+    printf("=> Complete!");
+}
 
 int managerCreateMenu(Menu *m){
     printf("name? ");
@@ -116,15 +126,12 @@ void managerDeleteMenu(Menu *m, int *count){
         m=NULL;
         count--;
     }
-
 }
 void managerReadMenu(Menu *m[], int index){
     printf("========================================\n");
     for(int i=0; i<index; i++){
         if(m[i]==NULL) continue;
         printf("%d\t\t%s\t\t%c\t\t%d won\n",i+1,m[i]->name,m[i]->size, m[i]->price);
-        // printf("");
-
     }
 }
 void managerConfirmSale(){}
