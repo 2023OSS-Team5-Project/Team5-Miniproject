@@ -1,6 +1,7 @@
 {
-    "files.associations": {
-        "manager.h": "c",
-        "stdio.h": "c"
-    }
+  "files.associations": {
+    "manager.h": "c",
+    "stdio.h": "c",
+    "typeinfo": "c"
+  }
 }

@@ -15,6 +15,7 @@ int managerUpdateMenu(Menu *m);
 void managerDeleteMenu(Menu *m, int *count);
 int selectN();
 void managerSaveData(Menu *m[], int index);
+int managerLoadData(Menu *m[]);
 
 void managerMode()
 {
@@ -23,6 +24,8 @@ void managerMode()
     int result = 0, menu;
     int index=0;
     int count=0;
+    count = managerLoadData(mp);
+    index = count;
     while(1){
         menu = managerSelectMenu();
         if(menu==1){
@@ -94,6 +97,27 @@ void managerSaveData(Menu *m[], int index){
     }
     fclose(fp);
     printf("=> Complete!");
+}
+
+int managerLoadData(Menu *m[]){
+    FILE *fp;
+    fp = fopen("menu.txt", "rt");
+    if (fp == NULL)
+    {
+        printf("No Data!\n");
+        return 0;
+    }
+    int i = 0;
+
+    while (!feof(fp))
+    {   
+        m[i] = (Menu *)malloc(sizeof(Menu));
+        fscanf(fp, "%s\n%c\n%d\n", m[i]->name, &m[i]->size, &m[i]->price);
+        i++;
+    }
+    fclose(fp);
+    printf("==> Loading Success!\n");
+    return i;
 }
 
 int managerCreateMenu(Menu *m){
