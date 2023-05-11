@@ -14,6 +14,8 @@ void managerReadMenu(Menu *m[], int index);
 int managerUpdateMenu(Menu *m);
 void managerDeleteMenu(Menu *m, int *count);
 int selectN();
+void managerSaveData(Menu *m[], int index);
+int managerLoadData(Menu *m[]);
 
 void managerMode()
 {
@@ -22,6 +24,8 @@ void managerMode()
     int result = 0, menu;
     int index=0;
     int count=0;
+    count = managerLoadData(mp);
+    index = count;
     while(1){
         menu = managerSelectMenu();
         if(menu==1){
@@ -55,7 +59,7 @@ void managerMode()
     }
             }else printf("There are no data.");
         }
-        else if(menu==5){}
+        else if(menu==5){managerSaveData(mp,index);}
         else if(menu==6){}
         else if(menu==0){break;}
 
@@ -84,7 +88,37 @@ int managerSelectMenu(){
     return menu;
 }
 
-void managerSaveData(){}
+void managerSaveData(Menu *m[], int index){
+    FILE *fp;
+    fp = fopen("menu.txt", "wt");
+    for(int i=0; i<index; i++){
+        if(m[i] == NULL) continue;
+        fprintf(fp, "%s\n%c\n%d\n",m[i]->name, m[i]->size, m[i]->price);
+    }
+    fclose(fp);
+    printf("=> Complete!");
+}
+
+int managerLoadData(Menu *m[]){
+    FILE *fp;
+    fp = fopen("menu.txt", "rt");
+    if (fp == NULL)
+    {
+        printf("No Data!\n");
+        return 0;
+    }
+    int i = 0;
+
+    while (!feof(fp))
+    {   
+        m[i] = (Menu *)malloc(sizeof(Menu));
+        fscanf(fp, "%s\n%c\n%d\n", m[i]->name, &m[i]->size, &m[i]->price);
+        i++;
+    }
+    fclose(fp);
+    printf("==> Loading Success!\n");
+    return i;
+}
 
 int managerCreateMenu(Menu *m){
     printf("name? ");
@@ -116,15 +150,12 @@ void managerDeleteMenu(Menu *m, int *count){
         m=NULL;
         count--;
     }
-
 }
 void managerReadMenu(Menu *m[], int index){
     printf("========================================\n");
     for(int i=0; i<index; i++){
         if(m[i]==NULL) continue;
         printf("%d\t\t%s\t\t%c\t\t%d won\n",i+1,m[i]->name,m[i]->size, m[i]->price);
-        // printf("");
-
     }
 }
 void managerConfirmSale(){}
