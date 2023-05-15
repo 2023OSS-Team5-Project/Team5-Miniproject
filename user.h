@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "manager.h"
 
 typedef struct
 {
@@ -12,13 +11,21 @@ typedef struct
 
 } ShoppingBasket;
 
+typedef struct
+{
+    char name[20];
+    char size;
+    int price;
+    int sale;
+} MenuUser;
+
 int userSelectMenu();
-int loadData(Menu *s);
-void userReadMenu(Menu *s, int menuCount);
-void userChooseMenu(Menu *s, int menuCount, ShoppingBasket *b, int *basketCount);
+int loadData(MenuUser *s);
+void userReadMenu(MenuUser *s, int menuCount);
+void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCount);
 void userReadShoppingBasket(ShoppingBasket *b, int basketCount);
-void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount);
-void Pay();
+void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, int menuCount);
+void Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount);
 void usingCoupon();
 void purchase();
 
@@ -27,8 +34,8 @@ void userMode()
     // printf("\nUser 모드 입니다.\n");
     ShoppingBasket *b;
     b = (ShoppingBasket *)malloc(sizeof(ShoppingBasket) * 100);
-    Menu *s;
-    s = (Menu *)malloc(sizeof(Menu) * 100);
+    MenuUser *s;
+    s = (MenuUser *)malloc(sizeof(MenuUser) * 100);
     int menuCount = loadData(s);
     int basketCount = 0;
     int menu;
@@ -48,14 +55,18 @@ void userMode()
         else if (menu == 2)
         {
             userReadShoppingBasket(b, basketCount);
+            int back = 0;
+            printf("돌아가시겠습니까? [0. 확인] => ");
+            scanf("%d", &back);
         }
         else if (menu == 3)
         {
-            userUpdateShoppingBasket(b, &basketCount);
+            userUpdateShoppingBasket(b, &basketCount, s, menuCount);
         }
         else if (menu == 4)
         {
-            Pay();
+            Pay(b, basketCount, s, menuCount);
+            break;
         }
     }
     printf("방문해 주셔서 감사합니다!\n");
@@ -79,7 +90,7 @@ int userSelectMenu()
     scanf("%d", &menu);
     return menu;
 }
-void userReadMenu(Menu *s, int menuCount)
+void userReadMenu(MenuUser *s, int menuCount)
 {
     printf("\n---------맘스 카페 메뉴---------\n\n");
     for (int i = 0; i < menuCount; i++)
@@ -90,7 +101,7 @@ void userReadMenu(Menu *s, int menuCount)
     printf("\n--------------------------------\n");
     printf("\n");
 }
-void userChooseMenu(Menu *s, int menuCount, ShoppingBasket *b, int *basketCount)
+void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCount)
 {
 
     userReadMenu(s, menuCount);
@@ -114,11 +125,8 @@ void userReadShoppingBasket(ShoppingBasket *b, int basketCount)
     }
     printf("\n--------------------------------\n");
     printf("\n");
-    int back = 0;
-    printf("돌아가시겠습니까? [0. 확인] => ");
-    scanf("%d", &back);
 }
-void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount)
+void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, int menuCount)
 {
     userReadShoppingBasket(b, *basketCount);
     int selectedMenu;
@@ -132,6 +140,16 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount)
     {
         printf("\n원하시는 사이즈를 입력해 주세요 [S/M/L] => ");
         scanf(" %c", &b[selectedMenu].size);
+        for (int i = 0; i < menuCount; i++)
+        {
+            if (strstr(s[i].name, b[selectedMenu].name) != NULL)
+            {
+                if (s[i].size == b[selectedMenu].size)
+                {
+                    b[selectedMenu].price = s[i].price * b[selectedMenu].count;
+                }
+            }
+        }
     }
     else if (updateMenu == 2)
     {
@@ -146,11 +164,11 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount)
         {
             b[selectedMenu] = b[selectedMenu + 1];
         }
-        printf("\n삭제됨!\n");
+        printf("\n메뉴가 삭제되었습니다!\n");
         *basketCount -= 1;
     }
 }
-int loadData(Menu *s)
+int loadData(MenuUser *s)
 {
     FILE *fp = NULL;
     fp = fopen("menu.txt", "rt");
@@ -165,13 +183,51 @@ int loadData(Menu *s)
     {
         fgets(s[i].name, sizeof(s[i].name), fp);
         s[i].name[strlen(s[i].name) - 1] = '\0';
-        fscanf(fp, "%c\n%d\n", &s[i].size, &s[i].price);
+        fscanf(fp, "%c\n%d\n%d\n", &s[i].size, &s[i].price, &s[i].sale);
         i++;
     }
     fclose(fp);
-    printf("==> Loading Success!\n");
+    // printf("==> Loading Success!\n");
     return i;
 }
-void Pay() {}
+void Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount)
+{
+    userReadShoppingBasket(b, basketCount);
+    int totalPrice = 0;
+    int payHow;
+    for (int i = 0; i < basketCount; i++)
+    {
+        totalPrice += b[i].price;
+    }
+    printf("결제하실 금액은 총 %d원 입니다.\n", totalPrice);
+    printf("결제하시겠습니까? [0. 결제/ 1. 쿠폰 사용] => ");
+    scanf("%d", &payHow);
+    if (payHow == 0)
+    {
+        purchase(b, menuCount, totalPrice, s);
+    }
+    else if (payHow == 1)
+    {
+        usingCoupon();
+    }
+}
 void usingCoupon() {}
-void purchase() {}
+void purchase(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
+{
+    FILE *fp = NULL;
+    fp = fopen("menu.txt", "wt");
+
+    for (int i = 0; i < menuCount; i++)
+    {
+        if (i < menuCount - 1)
+        {
+            fprintf(fp, "%s\n%c\n%d\n%d\n", s[i].name, s[i].size, s[i].price, b[i].count + s[i].sale);
+        }
+        else if (i == menuCount - 1)
+        {
+            fprintf(fp, "%s\n%c\n%d\n%d", s[i].name, s[i].size, s[i].price, b[i].count + s[i].sale);
+        }
+    }
+    fclose(fp);
+    printf("\n결제가 완료되었습니다.\n");
+}

@@ -1,6 +1,16 @@
-Ice
-L
+Ice Americano
+S
 1000
-Water
+5
+Ice Americano
 M
-500
+1500
+0
+Ice Americano
+L
+2000
+0
+Ice MocaLatte
+M
+3000
+0
