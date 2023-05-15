@@ -26,8 +26,8 @@ void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCo
 void userReadShoppingBasket(ShoppingBasket *b, int basketCount);
 void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, int menuCount);
 void Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount);
-void usingCoupon();
-void purchase();
+void usingCoupon(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s);
+void purchase(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s);
 
 void userMode()
 {
@@ -164,7 +164,7 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, 
         {
             b[selectedMenu] = b[selectedMenu + 1];
         }
-        printf("\n메뉴가 삭제되었습니다!\n");
+        printf("\n메뉴가 삭제되었습니다.\n");
         *basketCount -= 1;
     }
 }
@@ -208,10 +208,51 @@ void Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount)
     }
     else if (payHow == 1)
     {
-        usingCoupon();
+        usingCoupon(b, menuCount, totalPrice, s);
     }
 }
-void usingCoupon() {}
+void usingCoupon(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
+{
+    int couponNum;
+    int pay;
+    int totalPrice2;
+    while (1)
+    {
+        int totalPrice2 = totalPrice;
+        printf("\n---------쿠폰함---------\n\n");
+        printf("1. 새학기 맞이 10%% 할인쿠폰\n");
+        printf("2. 생일 축하 50%% 할인쿠폰\n");
+        printf("3. 총장님이 쏘신 30%% 할인쿠폰\n");
+        printf("\n--------------------------------\n");
+        printf("\n");
+        printf("\n사용하실 쿠폰 번호를 입력해 주세요 => ");
+        scanf("%d", &couponNum);
+        if (couponNum == 1)
+        {
+            totalPrice2 *= 0.9;
+            totalPrice2 = (totalPrice2 + 99) / 100 * 100;
+        }
+        else if (couponNum == 2)
+        {
+            totalPrice2 *= 0.5;
+            totalPrice2 = (totalPrice2 + 99) / 100 * 100;
+        }
+        else if (couponNum == 3)
+        {
+            totalPrice2 *= 0.7;
+            totalPrice2 = (totalPrice2 + 99) / 100 * 100;
+        }
+        printf("\n할인된 결제하실 금액은 총 %d원 입니다.\n", totalPrice2);
+        printf("결제하시겠습니까? [0. 결제/ 1. 쿠폰 다시 선택] => ");
+        scanf("%d", &pay);
+        if (pay == 0)
+        {
+            totalPrice = totalPrice2;
+            break;
+        }
+    }
+    purchase(b, menuCount, totalPrice, s);
+}
 void purchase(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
 {
     FILE *fp = NULL;
