@@ -93,9 +93,10 @@ int userSelectMenu()
 void userReadMenu(MenuUser *s, int menuCount)
 {
     printf("\n---------맘스 카페 메뉴---------\n\n");
+    printf("        Menu       Size  Price\n");
     for (int i = 0; i < menuCount; i++)
     {
-        printf("%d. %s %c %d \n", i + 1, s[i].name, s[i].size, s[i].price);
+        printf("%d. %s    %c    %d \n", i + 1, s[i].name, s[i].size, s[i].price);
     }
 
     printf("\n--------------------------------\n");
@@ -258,15 +259,32 @@ void purchase(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
     FILE *fp = NULL;
     fp = fopen("menu.txt", "wt");
 
-    for (int i = 0; i < menuCount; i++)
+    for (int i = 0, j = 0; i < menuCount; i++)
     {
         if (i < menuCount - 1)
         {
-            fprintf(fp, "%s\n%c\n%d\n%d\n", s[i].name, s[i].size, s[i].price, b[i].count + s[i].sale);
+
+            if ((strstr(b[j].name, s[i].name) != NULL) && (b[j].size == s[i].size))
+            {
+                fprintf(fp, "%s\n%c\n%d\n%d\n", s[i].name, s[i].size, s[i].price, b[j].count + s[i].sale);
+                j++;
+            }
+            else
+            {
+                fprintf(fp, "%s\n%c\n%d\n%d\n", s[i].name, s[i].size, s[i].price, s[i].sale);
+            }
         }
         else if (i == menuCount - 1)
         {
-            fprintf(fp, "%s\n%c\n%d\n%d", s[i].name, s[i].size, s[i].price, b[i].count + s[i].sale);
+            if ((strstr(b[j].name, s[i].name) != NULL) && (b[j].size == s[i].size))
+            {
+                fprintf(fp, "%s\n%c\n%d\n%d", s[i].name, s[i].size, s[i].price, b[j].count + s[i].sale);
+                j++;
+            }
+            else
+            {
+                fprintf(fp, "%s\n%c\n%d\n%d", s[i].name, s[i].size, s[i].price, s[i].sale);
+            }
         }
     }
     fclose(fp);

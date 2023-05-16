@@ -1,7 +1,7 @@
 Ice Americano
 S
 1000
-7
+0
 Ice Americano
 M
 1500
@@ -9,7 +9,7 @@ M
 Ice Americano
 L
 2000
-0
+3
 Ice MocaLatte
 M
 3000
