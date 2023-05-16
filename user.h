@@ -25,9 +25,9 @@ void userReadMenu(MenuUser *s, int menuCount);
 void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCount);
 void userReadShoppingBasket(ShoppingBasket *b, int basketCount);
 void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, int menuCount);
-void Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount);
-void usingCoupon(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s);
-void purchase(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s);
+int Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount);
+int usingCoupon(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s);
+int purchase(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s);
 
 void userMode()
 {
@@ -70,8 +70,11 @@ void userMode()
         }
         else if (menu == 4)
         {
-            Pay(b, basketCount, s, menuCount);
-            break;
+            int pay = Pay(b, basketCount, s, menuCount);
+            if (pay == 0)
+            {
+                break;
+            }
         }
     }
     printf("방문해 주셔서 감사합니다!\n");
@@ -176,18 +179,26 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, 
     userReadShoppingBasket(b, *basketCount);
     int selectedMenu;
     int updateMenu;
-    while (selectedMenu <= 0 || selectedMenu > *basketCount)
+    while (selectedMenu < 0 || selectedMenu > *basketCount)
     {
-        printf("\n수정하시려는 메뉴 번호를 입력해 주세요 => ");
+        printf("\n수정하시려는 메뉴 번호를 입력해 주세요 [0. 돌아가기]=> ");
         scanf("%d", &selectedMenu);
     }
-    selectedMenu--;
-    while (updateMenu <= 0 || updateMenu > 3)
+    if (selectedMenu == 0)
     {
-        printf("\n무엇을 하시겠습니까? [1. 사이즈 변경 / 2. 수량 변경 / 3. 메뉴 삭제] => ");
+        return;
+    }
+    selectedMenu--;
+    while (updateMenu < 0 || updateMenu > 3)
+    {
+        printf("\n무엇을 하시겠습니까? [1. 사이즈 변경 / 2. 수량 변경 / 3. 메뉴 삭제 / 0. 돌아가기 ] => ");
         scanf("%d", &updateMenu);
     }
-    if (updateMenu == 1)
+    if (updateMenu == 0)
+    {
+        return;
+    }
+    else if (updateMenu == 1)
     {
         do
         {
@@ -248,7 +259,7 @@ int loadData(MenuUser *s)
     fclose(fp);
     return i;
 }
-void Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount)
+int Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount)
 {
     userReadShoppingBasket(b, basketCount);
     int totalPrice = 0;
@@ -260,20 +271,24 @@ void Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount)
     printf("결제하실 금액은 총 %d원 입니다.\n", totalPrice);
     do
     {
-        printf("결제하시겠습니까? [1. 결제/ 2. 쿠폰 사용] => ");
+        printf("결제하시겠습니까? [1. 결제/ 2. 쿠폰 사용/ 0. 돌아가기] => ");
         scanf("%d", &payHow);
-    } while (payHow < 1 || payHow > 2);
+    } while (payHow < 0 || payHow > 2);
 
-    if (payHow == 1)
+    if (payHow == 0)
     {
-        purchase(b, menuCount, totalPrice, s);
+        return 1;
+    }
+    else if (payHow == 1)
+    {
+        return purchase(b, menuCount, totalPrice, s);
     }
     else if (payHow == 2)
     {
-        usingCoupon(b, menuCount, totalPrice, s);
+        return usingCoupon(b, menuCount, totalPrice, s);
     }
 }
-void usingCoupon(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
+int usingCoupon(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
 {
     int couponNum;
     int pay;
@@ -309,17 +324,21 @@ void usingCoupon(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
             totalPrice2 = (totalPrice2 + 99) / 100 * 100;
         }
         printf("\n할인된 결제하실 금액은 총 %d원 입니다.\n", totalPrice2);
-        printf("결제하시겠습니까? [0. 결제/ 1. 쿠폰 다시 선택] => ");
+        printf("결제하시겠습니까? [1. 결제/ 2. 쿠폰 다시 선택/ 0. 돌아가기] => ");
         scanf("%d", &pay);
-        if (pay == 0)
+        if (pay == 1)
         {
             totalPrice = totalPrice2;
-            break;
+            purchase(b, menuCount, totalPrice, s);
+            return 0;
+        }
+        if (pay == 0)
+        {
+            return 1;
         }
     }
-    purchase(b, menuCount, totalPrice, s);
 }
-void purchase(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
+int purchase(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
 {
     FILE *fp = NULL;
     fp = fopen("menu.txt", "wt");
@@ -354,4 +373,5 @@ void purchase(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
     }
     fclose(fp);
     printf("\n결제가 완료되었습니다.\n");
+    return 0;
 }
