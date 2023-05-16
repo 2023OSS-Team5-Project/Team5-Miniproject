@@ -20,9 +20,11 @@ typedef struct
 } MenuUser;
 
 int userSelectMenu();
+
 int loadData(MenuUser *s);
 void userReadMenu(MenuUser *s, int menuCount);
 void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCount);
+
 void userReadShoppingBasket(ShoppingBasket *b, int basketCount);
 void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, int menuCount);
 int Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount);
@@ -31,12 +33,13 @@ int purchase(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s);
 
 void userMode()
 {
-    // printf("\nUser ¸ðµå ÀÔ´Ï´Ù.\n");
+    // printf("\nUser ï¿½ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.\n");
     ShoppingBasket *b;
     b = (ShoppingBasket *)malloc(sizeof(ShoppingBasket) * 100);
     MenuUser *s;
     s = (MenuUser *)malloc(sizeof(MenuUser) * 100);
     int menuCount = loadData(s);
+
     int basketCount = 0;
     int menu;
 
@@ -56,14 +59,14 @@ void userMode()
         {
             userReadShoppingBasket(b, basketCount);
             int back = 0;
-            printf("µ¹¾Æ°¡½Ã°Ú½À´Ï±î? [0. È®ÀÎ] => ");
+            printf("ï¿½ï¿½ï¿½Æ°ï¿½ï¿½Ã°Ú½ï¿½Ï±ï¿½? [0. È®ï¿½ï¿½] => ");
             scanf("%d", &back);
         }
         else if (menu == 3)
         {
             if (basketCount == 0)
             {
-                printf("\nÀå¹Ù±¸´Ï¿¡ ´ã±ä ¸Þ´º°¡ ¾ø½À´Ï´Ù.\n");
+                printf("\nï¿½ï¿½Ù±ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½.\n");
                 continue;
             }
             userUpdateShoppingBasket(b, &basketCount, s, menuCount);
@@ -77,30 +80,30 @@ void userMode()
             }
         }
     }
-    printf("¹æ¹®ÇØ ÁÖ¼Å¼­ °¨»çÇÕ´Ï´Ù!\n");
+    printf("ï¿½æ¹®ï¿½ï¿½ ï¿½Ö¼Å¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½!\n");
     free(s);
 };
 
 int userSelectMenu()
 {
     int menu;
-    printf("\n**********¸¾½º Ä«Æä**********\n");
+    printf("\n**********ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½**********\n");
     printf("             /\\            \n");
     printf("            /  \\           \n");
     printf("----------------------------\n");
-    printf("|   1. ¸Þ´º ¼±ÅÃÇÏ±â       |\n");
-    printf("|   2. Àå¹Ù±¸´Ï È®ÀÎÇÏ±â   |\n");
-    printf("|   3. Àå¹Ù±¸´Ï ¼öÁ¤ÇÏ±â   |\n");
-    printf("|   4. °áÁ¦ÇÏ±â            |\n");
-    printf("|   0. ³ª°¡±â              |\n");
+    printf("|   1. ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½       |\n");
+    printf("|   2. ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï±ï¿½   |\n");
+    printf("|   3. ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½   |\n");
+    printf("|   4. ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½            |\n");
+    printf("|   0. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½              |\n");
     printf("----------------------------\n");
-    printf("\n¿øÇÏ½Ã´Â ¼­ºñ½º¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä => ");
+    printf("\nï¿½ï¿½ï¿½Ï½Ã´ï¿½ ï¿½ï¿½ï¿½ñ½º¸ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½ => ");
     scanf("%d", &menu);
     return menu;
 }
 void userReadMenu(MenuUser *s, int menuCount)
 {
-    printf("\n----------¸¾½º Ä«Æä ¸Þ´º----------\n\n");
+    printf("\n----------ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½Þ´ï¿½----------\n\n");
     printf("        Menu       Size  Price\n");
     for (int i = 0; i < menuCount; i++)
     {
@@ -119,7 +122,7 @@ void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCo
     int alreadyIndex = 0;
     do
     {
-        printf("\n¿øÇÏ½Ã´Â ¸Þ´º¸¦ ¼±ÅÃÇØ ÁÖ¼¼¿ä [0. µ¹¾Æ°¡±â] => ");
+        printf("\nï¿½ï¿½ï¿½Ï½Ã´ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½ [0. ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½] => ");
         scanf("%d", &selectedMenu);
     } while (selectedMenu < 0 || selectedMenu > menuCount);
 
@@ -145,7 +148,7 @@ void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCo
         int alreadyCount = 0;
         while (alreadyCount <= 0)
         {
-            printf("\n¿øÇÏ½Ã´Â ¼ö·®À» ÀÔ·ÂÇØ ÁÖ¼¼¿ä => ");
+            printf("\nï¿½ï¿½ï¿½Ï½Ã´ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½ => ");
             scanf("%d", &alreadyCount);
         }
         b[alreadyIndex].count += alreadyCount;
@@ -155,7 +158,7 @@ void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCo
     {
         while (b[*basketCount].count <= 0)
         {
-            printf("\n¿øÇÏ½Ã´Â ¼ö·®À» ÀÔ·ÂÇØ ÁÖ¼¼¿ä => ");
+            printf("\nï¿½ï¿½ï¿½Ï½Ã´ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½ => ");
             scanf("%d", &b[*basketCount].count);
         }
         strcpy(b[*basketCount].name, s[selectedMenu].name);
@@ -163,16 +166,18 @@ void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCo
         b[*basketCount].price = s[selectedMenu].price * b[*basketCount].count;
         *basketCount += 1;
     }
+
 }
 void userReadShoppingBasket(ShoppingBasket *b, int basketCount)
 {
-    printf("\n------------Àå¹Ù±¸´Ï------------\n\n");
+    printf("\n------------ï¿½ï¿½Ù±ï¿½ï¿½ï¿½------------\n\n");
     for (int i = 0; i < basketCount; i++)
     {
         printf("%d. %s %c %d %d \n", i + 1, b[i].name, b[i].size, b[i].count, b[i].price);
     }
     printf("\n--------------------------------\n");
     printf("\n");
+
 }
 void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, int menuCount)
 {
@@ -181,7 +186,7 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, 
     int updateMenu;
     while (selectedMenu < 0 || selectedMenu > *basketCount)
     {
-        printf("\n¼öÁ¤ÇÏ½Ã·Á´Â ¸Þ´º ¹øÈ£¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä [0. µ¹¾Æ°¡±â]=> ");
+        printf("\nï¿½ï¿½ï¿½ï¿½Ï½Ã·ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½ [0. ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½]=> ");
         scanf("%d", &selectedMenu);
     }
     if (selectedMenu == 0)
@@ -191,7 +196,7 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, 
     selectedMenu--;
     while (updateMenu < 0 || updateMenu > 3)
     {
-        printf("\n¹«¾ùÀ» ÇÏ½Ã°Ú½À´Ï±î? [1. »çÀÌÁî º¯°æ / 2. ¼ö·® º¯°æ / 3. ¸Þ´º »èÁ¦ / 0. µ¹¾Æ°¡±â ] => ");
+        printf("\nï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï½Ã°Ú½ï¿½Ï±ï¿½? [1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ / 2. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ / 3. ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ / 0. ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ ] => ");
         scanf("%d", &updateMenu);
     }
     if (updateMenu == 0)
@@ -202,7 +207,7 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, 
     {
         do
         {
-            printf("\n¿øÇÏ½Ã´Â »çÀÌÁî¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä [S/M/L] => ");
+            printf("\nï¿½ï¿½ï¿½Ï½Ã´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½î¸¦ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½ [S/M/L] => ");
             scanf(" %c", &b[selectedMenu].size);
         } while (b[selectedMenu].size != 'S' && b[selectedMenu].size != 'M' && b[selectedMenu].size != 'L');
 
@@ -216,13 +221,14 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, 
                 }
             }
         }
+
     }
     else if (updateMenu == 2)
     {
         int prevPrice = b[selectedMenu].price / b[selectedMenu].count;
         do
         {
-            printf("\n¿øÇÏ½Ã´Â ¼ö·®À» ÀÔ·ÂÇØ ÁÖ¼¼¿ä => ");
+            printf("\nï¿½ï¿½ï¿½Ï½Ã´ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½ => ");
             scanf("%d", &b[selectedMenu].count);
         } while (b[selectedMenu].count <= 0);
 
@@ -234,7 +240,7 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, 
         {
             b[selectedMenu] = b[selectedMenu + 1];
         }
-        printf("\n¸Þ´º°¡ »èÁ¦µÇ¾ú½À´Ï´Ù.\n");
+        printf("\nï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Ï´ï¿½.\n");
         *basketCount -= 1;
     }
 }
@@ -268,10 +274,10 @@ int Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount)
     {
         totalPrice += b[i].price;
     }
-    printf("°áÁ¦ÇÏ½Ç ±Ý¾×Àº ÃÑ %d¿ø ÀÔ´Ï´Ù.\n", totalPrice);
+    printf("ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½Ý¾ï¿½ï¿½ ï¿½ï¿½ %dï¿½ï¿½ ï¿½Ô´Ï´ï¿½.\n", totalPrice);
     do
     {
-        printf("°áÁ¦ÇÏ½Ã°Ú½À´Ï±î? [1. °áÁ¦/ 2. ÄíÆù »ç¿ë/ 0. µ¹¾Æ°¡±â] => ");
+        printf("ï¿½ï¿½ï¿½ï¿½Ï½Ã°Ú½ï¿½Ï±ï¿½? [1. ï¿½ï¿½ï¿½/ 2. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½/ 0. ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½] => ");
         scanf("%d", &payHow);
     } while (payHow < 0 || payHow > 2);
 
@@ -296,15 +302,15 @@ int usingCoupon(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
     while (1)
     {
         int totalPrice2 = totalPrice;
-        printf("\n---------ÄíÆùÇÔ---------\n\n");
-        printf("1. »õÇÐ±â ¸ÂÀÌ 10%% ÇÒÀÎÄíÆù\n");
-        printf("2. »ýÀÏ ÃàÇÏ 50%% ÇÒÀÎÄíÆù\n");
-        printf("3. ÃÑÀå´ÔÀÌ ½î½Å 30%% ÇÒÀÎÄíÆù\n");
+        printf("\n---------ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½---------\n\n");
+        printf("1. ï¿½ï¿½ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½ 10%% ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
+        printf("2. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 50%% ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
+        printf("3. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 30%% ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
         printf("\n--------------------------------\n");
         printf("\n");
         do
         {
-            printf("\n»ç¿ëÇÏ½Ç ÄíÆù ¹øÈ£¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä => ");
+            printf("\nï¿½ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½ => ");
             scanf("%d", &couponNum);
         } while (couponNum < 1 || couponNum > 3);
 
@@ -323,8 +329,8 @@ int usingCoupon(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
             totalPrice2 *= 0.7;
             totalPrice2 = (totalPrice2 + 99) / 100 * 100;
         }
-        printf("\nÇÒÀÎµÈ °áÁ¦ÇÏ½Ç ±Ý¾×Àº ÃÑ %d¿ø ÀÔ´Ï´Ù.\n", totalPrice2);
-        printf("°áÁ¦ÇÏ½Ã°Ú½À´Ï±î? [1. °áÁ¦/ 2. ÄíÆù ´Ù½Ã ¼±ÅÃ/ 0. µ¹¾Æ°¡±â] => ");
+        printf("\nï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½Ý¾ï¿½ï¿½ ï¿½ï¿½ %dï¿½ï¿½ ï¿½Ô´Ï´ï¿½.\n", totalPrice2);
+        printf("ï¿½ï¿½ï¿½ï¿½Ï½Ã°Ú½ï¿½Ï±ï¿½? [1. ï¿½ï¿½ï¿½/ 2. ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½/ 0. ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½] => ");
         scanf("%d", &pay);
         if (pay == 1)
         {
@@ -372,6 +378,6 @@ int purchase(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
         }
     }
     fclose(fp);
-    printf("\n°áÁ¦°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.\n");
+    printf("\nï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½Ï´ï¿½.\n");
     return 0;
 }

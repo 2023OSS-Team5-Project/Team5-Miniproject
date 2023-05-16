@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "manager.h"
+// #include "manager.h"
 #include "user.h"
 
 void selectMode()
 {
     int mode;
 
-    printf("\n\n******¸¾½ºÄ«Æä¿¡ ¿À½Å °ÍÀ» È¯¿µÇÕ´Ï´Ù!******\n\n");
+    printf("\n\n******Â¸Â¾Â½ÂºÃ„Â«Ã†Ã¤Â¿Â¡ Â¿Ã€Â½Ã… Â°ÃÃ€Â» ÃˆÂ¯Â¿ÂµÃ‡Ã•Â´ÃÂ´Ã™!******\n\n");
     printf("----------------------------\n");
-    printf("0. ¸Å´ÏÀú ¸ðµå \n1. À¯Àú¸ðµå \n");
+    printf("0. ????? ??? \n1. ??????? \n");
     printf("----------------------------\n");
-    printf("\n¿øÇÏ½Ã´Â ¸ðµå¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä => ");
+    printf("\n?????? ??? ????? ????? => ");
     scanf("%d", &mode);
     if (mode)
         userMode();
