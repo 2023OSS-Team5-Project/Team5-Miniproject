@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-// #include "manager.h"
+#include "manager.h"
 #include "user.h"
 
 void selectMode()
