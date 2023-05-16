@@ -61,6 +61,11 @@ void userMode()
         }
         else if (menu == 3)
         {
+            if (basketCount == 0)
+            {
+                printf("\n장바구니에 담긴 메뉴가 없습니다.\n");
+                continue;
+            }
             userUpdateShoppingBasket(b, &basketCount, s, menuCount);
         }
         else if (menu == 4)
@@ -92,26 +97,32 @@ int userSelectMenu()
 }
 void userReadMenu(MenuUser *s, int menuCount)
 {
-    printf("\n---------맘스 카페 메뉴---------\n\n");
+    printf("\n----------맘스 카페 메뉴----------\n\n");
     printf("        Menu       Size  Price\n");
     for (int i = 0; i < menuCount; i++)
     {
-        printf("%d. %s    %c    %d \n", i + 1, s[i].name, s[i].size, s[i].price);
+        printf("%d. %-17s%-5c%d \n", i + 1, s[i].name, s[i].size, s[i].price);
     }
 
-    printf("\n--------------------------------\n");
+    printf("\n----------------------------------\n");
     printf("\n");
 }
 void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCount)
 {
 
     userReadMenu(s, menuCount);
-    int selectedMenu;
-    printf("\n원하시는 메뉴를 선택해 주세요 => ");
-    scanf("%d", &selectedMenu);
+    int selectedMenu = 0;
+    while (selectedMenu <= 0 || selectedMenu > menuCount)
+    {
+        printf("\n원하시는 메뉴를 선택해 주세요 => ");
+        scanf("%d", &selectedMenu);
+    }
     selectedMenu--;
-    printf("\n원하시는 수량을 입력해 주세요 => ");
-    scanf("%d", &b[*basketCount].count);
+    while (b[*basketCount].count <= 0)
+    {
+        printf("\n원하시는 수량을 입력해 주세요 => ");
+        scanf("%d", &b[*basketCount].count);
+    }
     strcpy(b[*basketCount].name, s[selectedMenu].name);
     b[*basketCount].size = s[selectedMenu].size;
     b[*basketCount].price = s[selectedMenu].price * b[*basketCount].count;
@@ -132,15 +143,25 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, 
     userReadShoppingBasket(b, *basketCount);
     int selectedMenu;
     int updateMenu;
-    printf("\n수정하시려는 메뉴 번호를 입력해 주세요 => ");
-    scanf("%d", &selectedMenu);
+    while (selectedMenu <= 0 || selectedMenu > *basketCount)
+    {
+        printf("\n수정하시려는 메뉴 번호를 입력해 주세요 => ");
+        scanf("%d", &selectedMenu);
+    }
     selectedMenu--;
-    printf("\n무엇을 하시겠습니까? [1.사이즈 변경 / 2. 수량 변경 / 3. 메뉴 삭제] => ");
-    scanf("%d", &updateMenu);
+    while (updateMenu <= 0 || updateMenu > 3)
+    {
+        printf("\n무엇을 하시겠습니까? [1.사이즈 변경 / 2. 수량 변경 / 3. 메뉴 삭제] => ");
+        scanf("%d", &updateMenu);
+    }
     if (updateMenu == 1)
     {
-        printf("\n원하시는 사이즈를 입력해 주세요 [S/M/L] => ");
-        scanf(" %c", &b[selectedMenu].size);
+        do
+        {
+            printf("\n원하시는 사이즈를 입력해 주세요 [S/M/L] => ");
+            scanf(" %c", &b[selectedMenu].size);
+        } while (b[selectedMenu].size != 'S' && b[selectedMenu].size != 'M' && b[selectedMenu].size != 'L');
+
         for (int i = 0; i < menuCount; i++)
         {
             if (strstr(s[i].name, b[selectedMenu].name) != NULL)
@@ -155,8 +176,12 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, 
     else if (updateMenu == 2)
     {
         int prevPrice = b[selectedMenu].price / b[selectedMenu].count;
-        printf("\n원하시는 수량을 입력해 주세요 => ");
-        scanf("%d", &b[selectedMenu].count);
+        do
+        {
+            printf("\n원하시는 수량을 입력해 주세요 => ");
+            scanf("%d", &b[selectedMenu].count);
+        } while (b[selectedMenu].count <= 0);
+
         b[selectedMenu].price = prevPrice * b[selectedMenu].count;
     }
     else if (updateMenu == 3)
@@ -188,7 +213,6 @@ int loadData(MenuUser *s)
         i++;
     }
     fclose(fp);
-    // printf("==> Loading Success!\n");
     return i;
 }
 void Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount)
@@ -201,13 +225,17 @@ void Pay(ShoppingBasket *b, int basketCount, MenuUser *s, int menuCount)
         totalPrice += b[i].price;
     }
     printf("결제하실 금액은 총 %d원 입니다.\n", totalPrice);
-    printf("결제하시겠습니까? [0. 결제/ 1. 쿠폰 사용] => ");
-    scanf("%d", &payHow);
-    if (payHow == 0)
+    do
+    {
+        printf("결제하시겠습니까? [1. 결제/ 2. 쿠폰 사용] => ");
+        scanf("%d", &payHow);
+    } while (payHow < 1 || payHow > 2);
+
+    if (payHow == 1)
     {
         purchase(b, menuCount, totalPrice, s);
     }
-    else if (payHow == 1)
+    else if (payHow == 2)
     {
         usingCoupon(b, menuCount, totalPrice, s);
     }
@@ -226,8 +254,12 @@ void usingCoupon(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
         printf("3. 총장님이 쏘신 30%% 할인쿠폰\n");
         printf("\n--------------------------------\n");
         printf("\n");
-        printf("\n사용하실 쿠폰 번호를 입력해 주세요 => ");
-        scanf("%d", &couponNum);
+        do
+        {
+            printf("\n사용하실 쿠폰 번호를 입력해 주세요 => ");
+            scanf("%d", &couponNum);
+        } while (couponNum < 1 || couponNum > 3);
+
         if (couponNum == 1)
         {
             totalPrice2 *= 0.9;
