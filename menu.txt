@@ -1,7 +1,7 @@
 Ice Americano
 S
 1000
-0
+1
 Ice Americano
 M
 1500

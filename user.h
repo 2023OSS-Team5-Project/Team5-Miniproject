@@ -111,14 +111,20 @@ void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCo
 {
 
     userReadMenu(s, menuCount);
-    int selectedMenu = 0;
+    int selectedMenu;
     int isAlready = 0;
     int alreadyIndex = 0;
-    while (selectedMenu <= 0 || selectedMenu > menuCount)
+    do
     {
-        printf("\n원하시는 메뉴를 선택해 주세요 => ");
+        printf("\n원하시는 메뉴를 선택해 주세요 [0. 돌아가기] => ");
         scanf("%d", &selectedMenu);
+    } while (selectedMenu < 0 || selectedMenu > menuCount);
+
+    if (selectedMenu == 0)
+    {
+        return;
     }
+
     selectedMenu--;
     for (int i = 0; i < *basketCount; i++)
     {
@@ -178,7 +184,7 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, 
     selectedMenu--;
     while (updateMenu <= 0 || updateMenu > 3)
     {
-        printf("\n무엇을 하시겠습니까? [1.사이즈 변경 / 2. 수량 변경 / 3. 메뉴 삭제] => ");
+        printf("\n무엇을 하시겠습니까? [1. 사이즈 변경 / 2. 수량 변경 / 3. 메뉴 삭제] => ");
         scanf("%d", &updateMenu);
     }
     if (updateMenu == 1)
