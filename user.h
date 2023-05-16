@@ -112,21 +112,48 @@ void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCo
 
     userReadMenu(s, menuCount);
     int selectedMenu = 0;
+    int isAlready = 0;
+    int alreadyIndex = 0;
     while (selectedMenu <= 0 || selectedMenu > menuCount)
     {
         printf("\n원하시는 메뉴를 선택해 주세요 => ");
         scanf("%d", &selectedMenu);
     }
     selectedMenu--;
-    while (b[*basketCount].count <= 0)
+    for (int i = 0; i < *basketCount; i++)
     {
-        printf("\n원하시는 수량을 입력해 주세요 => ");
-        scanf("%d", &b[*basketCount].count);
+        if (strstr(s[selectedMenu].name, b[i].name) != NULL)
+        {
+            if (s[selectedMenu].size == b[i].size)
+            {
+                isAlready++;
+                alreadyIndex = i;
+            }
+        }
     }
-    strcpy(b[*basketCount].name, s[selectedMenu].name);
-    b[*basketCount].size = s[selectedMenu].size;
-    b[*basketCount].price = s[selectedMenu].price * b[*basketCount].count;
-    *basketCount += 1;
+    if (isAlready > 0)
+    {
+        int alreadyCount = 0;
+        while (alreadyCount <= 0)
+        {
+            printf("\n원하시는 수량을 입력해 주세요 => ");
+            scanf("%d", &alreadyCount);
+        }
+        b[alreadyIndex].count += alreadyCount;
+        b[alreadyIndex].price = s[selectedMenu].price * b[alreadyIndex].count;
+    }
+    else
+    {
+        while (b[*basketCount].count <= 0)
+        {
+            printf("\n원하시는 수량을 입력해 주세요 => ");
+            scanf("%d", &b[*basketCount].count);
+        }
+        strcpy(b[*basketCount].name, s[selectedMenu].name);
+        b[*basketCount].size = s[selectedMenu].size;
+        b[*basketCount].price = s[selectedMenu].price * b[*basketCount].count;
+        *basketCount += 1;
+    }
 }
 void userReadShoppingBasket(ShoppingBasket *b, int basketCount)
 {
