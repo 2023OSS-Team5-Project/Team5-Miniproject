@@ -1,6 +1,8 @@
 Ice
 L
 1000
-Water
-M
-500
+3
+Coffe
+L
+2000
+2
