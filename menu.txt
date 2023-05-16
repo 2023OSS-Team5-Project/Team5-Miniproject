@@ -6,3 +6,11 @@ Coffe
 L
 2000
 2
+Water
+M
+1000
+3
+Ice Tea
+L
+2000
+8
