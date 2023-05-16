@@ -1,16 +1,17 @@
-Ice
-L
+Ice Americano
+S
 1000
-3
-Coffe
-L
-2000
-2
-Water
+1
+Ice Americano
 M
-1000
-3
-Ice Tea
+1500
+0
+Ice Americano
 L
 2000
-8
+0
+Ice MocaLatte
+M
+3000
+0
+
