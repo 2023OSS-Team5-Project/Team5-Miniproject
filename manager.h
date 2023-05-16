@@ -6,6 +6,7 @@ typedef struct{
     char name[20];
     char size;
     int price;
+    int sale;
 } Menu;
 
 int managerSelectMenu();
@@ -16,6 +17,7 @@ void managerDeleteMenu(Menu *m, int *count);
 int selectN();
 void managerSaveData(Menu *m[], int index);
 int managerLoadData(Menu *m[]);
+void managerConfirmSale();
 
 void managerMode()
 {
@@ -60,7 +62,7 @@ void managerMode()
             }else printf("There are no data.");
         }
         else if(menu==5){managerSaveData(mp,index);}
-        else if(menu==6){}
+        else if(menu==6){managerConfirmSale(mp,index);}
         else if(menu==0){break;}
 
     }
@@ -93,7 +95,7 @@ void managerSaveData(Menu *m[], int index){
     fp = fopen("menu.txt", "wt");
     for(int i=0; i<index; i++){
         if(m[i] == NULL) continue;
-        fprintf(fp, "%s\n%c\n%d\n",m[i]->name, m[i]->size, m[i]->price);
+        fprintf(fp, "%s\n%c\n%d\n%d\n",m[i]->name, m[i]->size, m[i]->price,m[i]->sale);
     }
     fclose(fp);
     printf("=> Complete!");
@@ -112,7 +114,7 @@ int managerLoadData(Menu *m[]){
     while (!feof(fp))
     {   
         m[i] = (Menu *)malloc(sizeof(Menu));
-        fscanf(fp, "%s\n%c\n%d\n", m[i]->name, &m[i]->size, &m[i]->price);
+        fscanf(fp, "%s\n%c\n%d\n%d\n", m[i]->name, &m[i]->size, &m[i]->price,&m[i]->sale);
         i++;
     }
     fclose(fp);
@@ -129,6 +131,7 @@ int managerCreateMenu(Menu *m){
     scanf("%c", &m->size);
     printf("price? ");
     scanf("%d", &m->price);
+    m->sale = 0;
     return 1;
 }
 
@@ -152,11 +155,15 @@ void managerDeleteMenu(Menu *m, int *count){
     }
 }
 void managerReadMenu(Menu *m[], int index){
-    printf("========================================\n");
+    printf("========================================================\n");
     for(int i=0; i<index; i++){
         if(m[i]==NULL) continue;
         printf("%d\t\t%s\t\t%c\t\t%d won\n",i+1,m[i]->name,m[i]->size, m[i]->price);
     }
 }
-void managerConfirmSale(){}
+void managerConfirmSale(Menu *m[], int index){
+    for(int i=0; i<index; i++){
+        printf("%s %c\t\t%d ===> %d Won\n",m[i]->name,m[i]->size, m[i]->sale, m[i]->price*m[i]->sale);
+    }
+}
 
