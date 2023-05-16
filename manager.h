@@ -110,11 +110,15 @@ int managerLoadData(Menu *m[]){
         return 0;
     }
     int i = 0;
+    char str[20];
 
     while (!feof(fp))
     {   
         m[i] = (Menu *)malloc(sizeof(Menu));
-        fscanf(fp, "%s\n%c\n%d\n%d\n", m[i]->name, &m[i]->size, &m[i]->price,&m[i]->sale);
+        fgets(str,20,fp);
+        str[strlen(str)-1] = '\0';
+        strcpy(m[i]->name,str);
+        fscanf(fp, "%c\n%d\n%d\n", &m[i]->size, &m[i]->price,&m[i]->sale);
         i++;
     }
     fclose(fp);
@@ -161,9 +165,36 @@ void managerReadMenu(Menu *m[], int index){
         printf("%d\t\t%s\t\t%c\t\t%d won\n",i+1,m[i]->name,m[i]->size, m[i]->price);
     }
 }
+
 void managerConfirmSale(Menu *m[], int index){
+    int n=0;
+    Menu temp[20];
     for(int i=0; i<index; i++){
-        printf("%s %c\t\t%d ===> %d Won\n",m[i]->name,m[i]->size, m[i]->sale, m[i]->price*m[i]->sale);
+        if(!m[i]) continue;
+        // printf("%s %c\t\t%d ===> %d Won\n",m[i]->name,m[i]->size, m[i]->sale, m[i]->price*m[i]->sale);
+        strcpy(temp[n].name, m[i]->name);
+        temp[n].price = m[i]->price;
+        temp[n].size = m[i]->size;
+        temp[n].sale = m[i]->sale;
+        n++;
+    }
+    
+    int max = temp[0].price*temp[0].sale;
+    for(int i=0; i<n; i++){
+        int count = i;
+        for(int j=i; j<n; j++){
+            if(max<temp[j].price*temp[j].sale){
+                max = temp[j].price*temp[j].sale;
+                count = j;
+            }
+        }    
+        Menu tmp = temp[i];
+        temp[i] = temp[count];
+        temp[count] = tmp;
+    }
+    printf("=====Sales Ranking=====\n");
+    for(int i=0; i<n; i++){
+        printf("%d.\t%s\t\t%c\t\t%d ===> %d Won\n",i+1,temp[i].name,temp[i].size, temp[i].sale, temp[i].price*temp[i].sale);
     }
 }
 
