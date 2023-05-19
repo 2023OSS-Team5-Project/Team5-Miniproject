@@ -5,13 +5,12 @@ S
 Ice Americano
 M
 1500
-0
-Ice Americano
+3
+Hot MocaLatte
 L
-2000
-0
-Ice MocaLatte
-M
 3000
 0
-
+Water
+M
+500
+6
