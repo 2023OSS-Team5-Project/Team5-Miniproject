@@ -1,6 +1,6 @@
 Project MCK
 ============
-<img src="./cafe.png" width="80%" style="margin:50px 0 100px 0" alt="cafe"></img><br/>
+<img src="./cafe.png" width="80%" alt="cafe"></img><br/>
 
 ### What is MCK?
 - 한동대학교 맘스카페용 키오스크 프로그램을 구현하는 프로젝트
