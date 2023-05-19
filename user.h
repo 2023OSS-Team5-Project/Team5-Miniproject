@@ -100,14 +100,14 @@ int userSelectMenu()
 }
 void userReadMenu(MenuUser *s, int menuCount)
 {
-    printf("\n----------맘스 카페 메뉴----------\n\n");
-    printf("        Menu       Size  Price\n");
+    printf("\n---------맘스 카페 메뉴---------\n\n");
+    printf("   Menu            Size   Price\n");
     for (int i = 0; i < menuCount; i++)
     {
-        printf("%d. %-17s%-5c%d \n", i + 1, s[i].name, s[i].size, s[i].price);
+        printf("%d. %-17s%-4c %6d \n", i + 1, s[i].name, s[i].size, s[i].price);
     }
 
-    printf("\n----------------------------------\n");
+    printf("\n--------------------------------\n");
     printf("\n");
 }
 void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCount)
@@ -166,12 +166,20 @@ void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCo
 }
 void userReadShoppingBasket(ShoppingBasket *b, int basketCount)
 {
-    printf("\n------------장바구니------------\n\n");
+    printf("\n----------------장바구니----------------\n\n");
+    printf("   Menu            Size   Count   Price\n");
     for (int i = 0; i < basketCount; i++)
     {
-        printf("%d. %s %c %d %d \n", i + 1, b[i].name, b[i].size, b[i].count, b[i].price);
+        printf("%d. %-17s%-7c %3d  %6d \n", i + 1, b[i].name, b[i].size, b[i].count, b[i].price);
     }
-    printf("\n--------------------------------\n");
+    int totalPrice = 0;
+    int payHow;
+    for (int i = 0; i < basketCount; i++)
+    {
+        totalPrice += b[i].price;
+    }
+    printf("\nTotal: %32d\n", totalPrice);
+    printf("----------------------------------------\n");
     printf("\n");
 }
 void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, int menuCount)

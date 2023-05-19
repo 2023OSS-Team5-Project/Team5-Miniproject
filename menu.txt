@@ -14,3 +14,7 @@ Hot MocaLatte
 L
 3000
 0
+Water
+M
+500
+0
