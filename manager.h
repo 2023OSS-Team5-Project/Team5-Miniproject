@@ -110,7 +110,7 @@ int managerSelectMenu()
     printf("4. 메뉴 삭제하기\n");
     printf("5. 저장하기\n");
     printf("6. 매출 확인\n");
-    printf("0. Exit\n\n");
+    printf("0. 끝내기\n\n");
     scanf("%d", &menu);
     return menu;
 }
@@ -233,9 +233,9 @@ void managerConfirmSale(Menu *m[], int index)
         temp[i] = temp[count];
         temp[count] = tmp;
     }
-    printf("=====매출 순위=====\n");
+    printf("===============매출 순위===============\n");
     for (int i = 0; i < n; i++)
     {
-        printf("%d.\t%s\t\t%c\t\t%d ===> %d Won\n", i + 1, temp[i].name, temp[i].size, temp[i].sale, temp[i].price * temp[i].sale);
+        printf("%d. %-17s%-4c %2d ===> %6d Won\n", i + 1, temp[i].name, temp[i].size, temp[i].sale, temp[i].price * temp[i].sale);
     }
 }
