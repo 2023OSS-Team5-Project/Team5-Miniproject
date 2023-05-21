@@ -22,7 +22,7 @@ void managerConfirmSale();
 
 void managerMode()
 {
-    printf("Manager Mode.\n");
+    printf("매니저 모드입니다.\n");
     Menu *mp[20];
     int result = 0, menu;
     int index = 0;
@@ -39,7 +39,7 @@ void managerMode()
                 managerReadMenu(mp, index);
             }
             else
-                printf("There are no data.");
+                printf("메뉴가 없습니다.");
         }
         else if (menu == 2)
         {
@@ -57,7 +57,7 @@ void managerMode()
                 managerUpdateMenu(mp[n - 1]);
             }
             else
-                printf("There are no data.");
+                printf("메뉴가 없습니다.");
         }
         else if (menu == 4)
         {
@@ -74,7 +74,7 @@ void managerMode()
                 }
             }
             else
-                printf("There are no data.");
+                printf("메뉴가 없습니다.");
         }
         else if (menu == 5)
         {
@@ -89,13 +89,13 @@ void managerMode()
             break;
         }
     }
-    printf("Thank you!");
+    printf("이용해주셔서 감사합니다!");
 };
 
 int selectN()
 {
     int n;
-    printf("number (cancel :0)? ");
+    printf("번호를 선택하여주세요 (취소 :0)? ");
     scanf("%d", &n);
     return n;
 }
@@ -104,13 +104,13 @@ int managerSelectMenu()
 {
     int menu;
     printf("\n*** Mom's Cafe ***\n");
-    printf("1. Read\n");
-    printf("2. Add\n");
-    printf("3. Update\n");
-    printf("4. Delete\n");
-    printf("5. Save\n");
-    printf("6. Confirm\n");
-    printf("0. Exit\n\n");
+    printf("1. 메뉴 확인하기\n");
+    printf("2. 메뉴 추가하기\n");
+    printf("3. 메뉴 수정하기\n");
+    printf("4. 메뉴 삭제하기\n");
+    printf("5. 저장하기\n");
+    printf("6. 매출 확인\n");
+    printf("0. 끝내기\n\n");
     scanf("%d", &menu);
     return menu;
 }
@@ -126,7 +126,7 @@ void managerSaveData(Menu *m[], int index)
         fprintf(fp, "%s\n%c\n%d\n%d\n", m[i]->name, m[i]->size, m[i]->price, m[i]->sale);
     }
     fclose(fp);
-    printf("=> Complete!");
+    printf("=> 저장 완료!");
 }
 
 int managerLoadData(Menu *m[])
@@ -135,7 +135,7 @@ int managerLoadData(Menu *m[])
     fp = fopen("menu.txt", "rt");
     if (fp == NULL)
     {
-        printf("No Data!\n");
+        printf("데이터가 없습니다!\n");
         return 0;
     }
     int i = 0;
@@ -151,19 +151,19 @@ int managerLoadData(Menu *m[])
         i++;
     }
     fclose(fp);
-    printf("==> Loading Success!\n");
+    printf("==> 불러오기 완료!\n");
     return i;
 }
 
 int managerCreateMenu(Menu *m)
 {
-    printf("name? ");
+    printf("메뉴명을 입력하여 주세요. ");
     getchar();
     fgets(m->name, 20, stdin);
     m->name[strlen(m->name) - 1] = '\0';
-    printf("size? ");
+    printf("사이즈를 입력하여 주세요. ");
     scanf("%c", &m->size);
-    printf("price? ");
+    printf("가격을 입력하여 주세요. ");
     scanf("%d", &m->price);
     m->sale = 0;
     return 1;
@@ -171,13 +171,13 @@ int managerCreateMenu(Menu *m)
 
 int managerUpdateMenu(Menu *m)
 {
-    printf("new name? ");
+    printf("수정할 메뉴명을 입력하여 주세요. ");
     getchar();
     fgets(m->name, 20, stdin);
     m->name[strlen(m->name) - 1] = '\0';
-    printf("new size? ");
+    printf("수정할 사이즈를 입력하여 주세요. ");
     scanf("%c", &m->size);
-    printf("new price? ");
+    printf("수정할 가격을 입력하여 주세요. ");
     scanf("%d", &m->price);
     return 1;
 }
@@ -198,7 +198,7 @@ void managerReadMenu(Menu *m[], int index)
     {
         if (m[i] == NULL)
             continue;
-        printf("%d\t\t%s\t\t%c\t\t%d won\n", i + 1, m[i]->name, m[i]->size, m[i]->price);
+        printf("%d. %-17s%-4c %6d won\n", i + 1, m[i]->name, m[i]->size, m[i]->price);
     }
 }
 
@@ -210,7 +210,6 @@ void managerConfirmSale(Menu *m[], int index)
     {
         if (!m[i])
             continue;
-        // printf("%s %c\t\t%d ===> %d Won\n",m[i]->name,m[i]->size, m[i]->sale, m[i]->price*m[i]->sale);
         strcpy(temp[n].name, m[i]->name);
         temp[n].price = m[i]->price;
         temp[n].size = m[i]->size;
@@ -234,9 +233,9 @@ void managerConfirmSale(Menu *m[], int index)
         temp[i] = temp[count];
         temp[count] = tmp;
     }
-    printf("=====Sales Ranking=====\n");
+    printf("===============매출 순위===============\n");
     for (int i = 0; i < n; i++)
     {
-        printf("%d.\t%s\t\t%c\t\t%d ===> %d Won\n", i + 1, temp[i].name, temp[i].size, temp[i].sale, temp[i].price * temp[i].sale);
+        printf("%d. %-17s%-4c %2d ===> %6d Won\n", i + 1, temp[i].name, temp[i].size, temp[i].sale, temp[i].price * temp[i].sale);
     }
 }
