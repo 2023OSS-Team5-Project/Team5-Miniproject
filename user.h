@@ -100,14 +100,14 @@ int userSelectMenu()
 }
 void userReadMenu(MenuUser *s, int menuCount)
 {
-    printf("\n----------맘스 카페 메뉴----------\n\n");
-    printf("        Menu       Size  Price\n");
+    printf("\n---------맘스 카페 메뉴---------\n\n");
+    printf("   Menu            Size   Price\n");
     for (int i = 0; i < menuCount; i++)
     {
-        printf("%d. %-17s%-5c%d \n", i + 1, s[i].name, s[i].size, s[i].price);
+        printf("%d. %-17s%-4c %6d \n", i + 1, s[i].name, s[i].size, s[i].price);
     }
 
-    printf("\n----------------------------------\n");
+    printf("\n--------------------------------\n");
     printf("\n");
 }
 void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCount)
@@ -166,12 +166,20 @@ void userChooseMenu(MenuUser *s, int menuCount, ShoppingBasket *b, int *basketCo
 }
 void userReadShoppingBasket(ShoppingBasket *b, int basketCount)
 {
-    printf("\n------------장바구니------------\n\n");
+    printf("\n----------------장바구니----------------\n\n");
+    printf("   Menu            Size   Count   Price\n");
     for (int i = 0; i < basketCount; i++)
     {
-        printf("%d. %s %c %d %d \n", i + 1, b[i].name, b[i].size, b[i].count, b[i].price);
+        printf("%d. %-17s%-7c %3d  %6d \n", i + 1, b[i].name, b[i].size, b[i].count, b[i].price);
     }
-    printf("\n--------------------------------\n");
+    int totalPrice = 0;
+    int payHow;
+    for (int i = 0; i < basketCount; i++)
+    {
+        totalPrice += b[i].price;
+    }
+    printf("\nTotal: %32d\n", totalPrice);
+    printf("----------------------------------------\n");
     printf("\n");
 }
 void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, int menuCount)
@@ -181,7 +189,7 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, 
     int updateMenu;
     while (selectedMenu < 0 || selectedMenu > *basketCount)
     {
-        printf("\n수정하시려는 메뉴 번호를 입력해 주세요 [0. 돌아가기]=> ");
+        printf("\n수정하시려는 메뉴 번호를 입력해 주세요 [0. 돌아가기] => ");
         scanf("%d", &selectedMenu);
     }
     if (selectedMenu == 0)
@@ -200,21 +208,31 @@ void userUpdateShoppingBasket(ShoppingBasket *b, int *basketCount, MenuUser *s, 
     }
     else if (updateMenu == 1)
     {
+        char selectedSize = ' ';
+        int hasChanged = 0;
         do
         {
             printf("\n원하시는 사이즈를 입력해 주세요 [S/M/L] => ");
-            scanf(" %c", &b[selectedMenu].size);
-        } while (b[selectedMenu].size != 'S' && b[selectedMenu].size != 'M' && b[selectedMenu].size != 'L');
+            scanf(" %c", &selectedSize);
+        } while (selectedSize != 'S' && selectedSize != 'M' && selectedSize != 'L');
 
         for (int i = 0; i < menuCount; i++)
         {
             if (strstr(s[i].name, b[selectedMenu].name) != NULL)
             {
-                if (s[i].size == b[selectedMenu].size)
+                if (s[i].size == selectedSize)
                 {
+                    b[selectedMenu].size = selectedSize;
                     b[selectedMenu].price = s[i].price * b[selectedMenu].count;
+                    hasChanged++;
                 }
             }
+        }
+        if (hasChanged == 0)
+        {
+            int yes = 0;
+            printf("\n변경하시려는 사이즈가 없는 메뉴입니다 [0. 돌아가기] => ");
+            scanf("%d", &yes);
         }
     }
     else if (updateMenu == 2)
@@ -311,17 +329,17 @@ int usingCoupon(ShoppingBasket *b, int menuCount, int totalPrice, MenuUser *s)
         if (couponNum == 1)
         {
             totalPrice2 *= 0.9;
-            totalPrice2 = (totalPrice2 + 99) / 100 * 100;
+            totalPrice2 = (totalPrice2 + 9) / 10 * 10;
         }
         else if (couponNum == 2)
         {
             totalPrice2 *= 0.5;
-            totalPrice2 = (totalPrice2 + 99) / 100 * 100;
+            totalPrice2 = (totalPrice2 + 9) / 10 * 10;
         }
         else if (couponNum == 3)
         {
             totalPrice2 *= 0.7;
-            totalPrice2 = (totalPrice2 + 99) / 100 * 100;
+            totalPrice2 = (totalPrice2 + 9) / 10 * 10;
         }
         printf("\n할인된 결제하실 금액은 총 %d원 입니다.\n", totalPrice2);
         printf("결제하시겠습니까? [1. 결제/ 2. 쿠폰 다시 선택/ 0. 돌아가기] => ");
