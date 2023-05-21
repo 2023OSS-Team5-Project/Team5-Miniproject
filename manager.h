@@ -22,7 +22,7 @@ void managerConfirmSale();
 
 void managerMode()
 {
-    printf("ë§¤ë‹ˆì € ëª¨ë“œìž…ë‹ˆë‹¤.\n");
+    printf("¸Å´ÏÀú ¸ðµåÀÔ´Ï´Ù.\n");
     Menu *mp[20];
     int result = 0, menu;
     int index = 0;
@@ -39,7 +39,7 @@ void managerMode()
                 managerReadMenu(mp, index);
             }
             else
-                printf("ë©”ë‰´ê°€ ì—†ìŠµë‹ˆë‹¤.");
+                printf("¸Þ´º°¡ ¾ø½À´Ï´Ù.");
         }
         else if (menu == 2)
         {
@@ -57,7 +57,7 @@ void managerMode()
                 managerUpdateMenu(mp[n - 1]);
             }
             else
-                printf("ë©”ë‰´ê°€ ì—†ìŠµë‹ˆë‹¤.");
+                printf("¸Þ´º°¡ ¾ø½À´Ï´Ù.");
         }
         else if (menu == 4)
         {
@@ -74,7 +74,7 @@ void managerMode()
                 }
             }
             else
-                printf("ë©”ë‰´ê°€ ì—†ìŠµë‹ˆë‹¤.");
+                printf("¸Þ´º°¡ ¾ø½À´Ï´Ù.");
         }
         else if (menu == 5)
         {
@@ -89,13 +89,13 @@ void managerMode()
             break;
         }
     }
-    printf("ì´ìš©í•´ì£¼ì…”ì„œ ê°ì‚¬í•©ë‹ˆë‹¤!");
+    printf("ÀÌ¿ëÇØÁÖ¼Å¼­ °¨»çÇÕ´Ï´Ù!");
 };
 
 int selectN()
 {
     int n;
-    printf("ë²ˆí˜¸ë¥¼ ì„ íƒí•˜ì—¬ì£¼ì„¸ìš” (ì·¨ì†Œ :0)? ");
+    printf("¹øÈ£¸¦ ¼±ÅÃÇÏ¿©ÁÖ¼¼¿ä (Ãë¼Ò :0)? ");
     scanf("%d", &n);
     return n;
 }
@@ -104,13 +104,13 @@ int managerSelectMenu()
 {
     int menu;
     printf("\n*** Mom's Cafe ***\n");
-    printf("1. ë©”ë‰´ í™•ì¸í•˜ê¸°\n");
-    printf("2. ë©”ë‰´ ì¶”ê°€í•˜ê¸°\n");
-    printf("3. ë©”ë‰´ ìˆ˜ì •í•˜ê¸°\n");
-    printf("4. ë©”ë‰´ ì‚­ì œí•˜ê¸°\n");
-    printf("5. ì €ìž¥í•˜ê¸°\n");
-    printf("6. ë§¤ì¶œ í™•ì¸\n");
-    printf("0. ëë‚´ê¸°\n\n");
+    printf("1. ¸Þ´º È®ÀÎÇÏ±â\n");
+    printf("2. ¸Þ´º Ãß°¡ÇÏ±â\n");
+    printf("3. ¸Þ´º ¼öÁ¤ÇÏ±â\n");
+    printf("4. ¸Þ´º »èÁ¦ÇÏ±â\n");
+    printf("5. ÀúÀåÇÏ±â\n");
+    printf("6. ¸ÅÃâ È®ÀÎ\n");
+    printf("0. ³¡³»±â\n\n");
     scanf("%d", &menu);
     return menu;
 }
@@ -126,7 +126,7 @@ void managerSaveData(Menu *m[], int index)
         fprintf(fp, "%s\n%c\n%d\n%d\n", m[i]->name, m[i]->size, m[i]->price, m[i]->sale);
     }
     fclose(fp);
-    printf("=> ì €ìž¥ ì™„ë£Œ!");
+    printf("=> ÀúÀå ¿Ï·á!");
 }
 
 int managerLoadData(Menu *m[])
@@ -135,7 +135,7 @@ int managerLoadData(Menu *m[])
     fp = fopen("menu.txt", "rt");
     if (fp == NULL)
     {
-        printf("ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤!\n");
+        printf("µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù!\n");
         return 0;
     }
     int i = 0;
@@ -151,19 +151,19 @@ int managerLoadData(Menu *m[])
         i++;
     }
     fclose(fp);
-    printf("==> ë¶ˆëŸ¬ì˜¤ê¸° ì™„ë£Œ!\n");
+    printf("==> ºÒ·¯¿À±â ¿Ï·á!\n");
     return i;
 }
 
 int managerCreateMenu(Menu *m)
 {
-    printf("ë©”ë‰´ëª…ì„ ìž…ë ¥í•˜ì—¬ ì£¼ì„¸ìš”. ");
+    printf("¸Þ´º¸íÀ» ÀÔ·ÂÇÏ¿© ÁÖ¼¼¿ä. ");
     getchar();
     fgets(m->name, 20, stdin);
     m->name[strlen(m->name) - 1] = '\0';
-    printf("ì‚¬ì´ì¦ˆë¥¼ ìž…ë ¥í•˜ì—¬ ì£¼ì„¸ìš”. ");
+    printf("»çÀÌÁî¸¦ ÀÔ·ÂÇÏ¿© ÁÖ¼¼¿ä. ");
     scanf("%c", &m->size);
-    printf("ê°€ê²©ì„ ìž…ë ¥í•˜ì—¬ ì£¼ì„¸ìš”. ");
+    printf("°¡°ÝÀ» ÀÔ·ÂÇÏ¿© ÁÖ¼¼¿ä. ");
     scanf("%d", &m->price);
     m->sale = 0;
     return 1;
@@ -171,13 +171,13 @@ int managerCreateMenu(Menu *m)
 
 int managerUpdateMenu(Menu *m)
 {
-    printf("ìˆ˜ì •í•  ë©”ë‰´ëª…ì„ ìž…ë ¥í•˜ì—¬ ì£¼ì„¸ìš”. ");
+    printf("¼öÁ¤ÇÒ ¸Þ´º¸íÀ» ÀÔ·ÂÇÏ¿© ÁÖ¼¼¿ä. ");
     getchar();
     fgets(m->name, 20, stdin);
     m->name[strlen(m->name) - 1] = '\0';
-    printf("ìˆ˜ì •í•  ì‚¬ì´ì¦ˆë¥¼ ìž…ë ¥í•˜ì—¬ ì£¼ì„¸ìš”. ");
+    printf("¼öÁ¤ÇÒ »çÀÌÁî¸¦ ÀÔ·ÂÇÏ¿© ÁÖ¼¼¿ä. ");
     scanf("%c", &m->size);
-    printf("ìˆ˜ì •í•  ê°€ê²©ì„ ìž…ë ¥í•˜ì—¬ ì£¼ì„¸ìš”. ");
+    printf("¼öÁ¤ÇÒ °¡°ÝÀ» ÀÔ·ÂÇÏ¿© ÁÖ¼¼¿ä. ");
     scanf("%d", &m->price);
     return 1;
 }
@@ -233,7 +233,7 @@ void managerConfirmSale(Menu *m[], int index)
         temp[i] = temp[count];
         temp[count] = tmp;
     }
-    printf("===============ë§¤ì¶œ ìˆœìœ„===============\n");
+    printf("===============¸ÅÃâ ¼øÀ§===============\n");
     for (int i = 0; i < n; i++)
     {
         printf("%d. %-17s%-4c %2d ===> %6d Won\n", i + 1, temp[i].name, temp[i].size, temp[i].sale, temp[i].price * temp[i].sale);
